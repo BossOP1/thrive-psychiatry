@@ -14,15 +14,7 @@
  *    HIPAA-appropriate form provider before launch.
  */
 
-$practice = [
-    'name'       => 'Thrive Psychiatry & Wellness',
-    'phone'      => '(480) 849-9201',
-    'phone_raw'  => '4808499201',
-    'portal'     => 'https://www.valant.io/patient-experience/patient-portal/',
-    'mesa_addr'  => '3707 East Southern Ave. #1096',
-    'mesa_city'  => 'Mesa, AZ 85206',
-    'maps'       => 'https://www.google.com/maps/search/?api=1&query=3707+E+Southern+Ave+%231096+Mesa+AZ+85206',
-];
+require __DIR__ . '/inc/site.php';
 
 const FORM_ENDPOINT = '#'; // TODO: HIPAA-compliant form handler
 
@@ -76,7 +68,7 @@ $services = [
     ],
 ];
 
-$also_treat = ['Anxiety', 'Insomnia', 'Bipolar disorder', 'Brain fog', 'Cognitive decline', 'Anger management', 'Schizophrenia', 'Substance use'];
+$also_treat = ['Anxiety', 'Insomnia', 'Bipolar Disorder', 'Brain Fog', 'Cognitive Decline', 'Anger Management', 'Schizophrenia', 'Substance Use'];
 
 $faqs = [
     [
@@ -105,98 +97,10 @@ $faqs = [
     ],
 ];
 
-function icon(string $name, string $class = 'h-6 w-6'): string
-{
-    $paths = [
-        'zap'       => '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
-        'target'    => '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
-        'pill'      => '<path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/>',
-        'sun'       => '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
-        'clipboard' => '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
-        'clock'     => '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
-        'message'   => '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
-        'moon'      => '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
-        'calendar'  => '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
-        'users'     => '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
-        'heart'     => '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
-        'arrow'     => '<path d="M5 12h14M12 5l7 7-7 7"/>',
-        'phone'     => '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
-        'pin'       => '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
-        'play'      => '<polygon points="6 3 20 12 6 21 6 3"/>',
-        'check'     => '<path d="M20 6 9 17l-5-5"/>',
-        'plus'      => '<path d="M12 5v14M5 12h14"/>',
-        'menu'      => '<path d="M4 6h16M4 12h16M4 18h16"/>',
-        'x'         => '<path d="M18 6 6 18M6 6l12 12"/>',
-        'chevron'   => '<path d="m6 9 6 6 6-6"/>',
-        'video'     => '<path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/>',
-    ];
-    return '<svg class="' . $class . '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . ($paths[$name] ?? '') . '</svg>';
-}
-
-function e(string $s): string
-{
-    return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
-}
+$page_title = 'Thrive Psychiatry & Wellness | TMS, ADHD & Psychiatry in Mesa, AZ & Vancouver, WA';
+$page_description = 'Personal psychiatric care that takes its time. ExoMind TMS, ADHD evaluations, medication management and mood disorder treatment in Mesa, AZ and Vancouver, WA. 90-minute first visits, text-friendly, evenings and Saturdays.';
+require __DIR__ . '/inc/head.php';
 ?>
-<!doctype html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Thrive Psychiatry & Wellness | TMS, ADHD & Psychiatry in Mesa, AZ & Vancouver, WA</title>
-    <meta name="description" content="Personal psychiatric care that takes its time. ExoMind TMS, ADHD evaluations, medication management and mood disorder treatment in Mesa, AZ and Vancouver, WA. 90-minute first visits, text-friendly, evenings and Saturdays.">
-    <link rel="icon" href="assets/img/logo.webp">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,500..800,50&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        // Pulled from the Thrive logo
-                        grape: { 50: '#F6F0FD', 100: '#EBDDFB', 200: '#D5B8F6', 400: '#9F5BE6', 500: '#8231D9', 600: '#7020C4', 700: '#5A16A0', 800: '#43107A', 900: '#2A0A4D' },
-                        sunrise: { 100: '#FFEBD3', 300: '#FDBA6B', 400: '#F99E38', 500: '#F28A1C', 600: '#D97008' },
-                        sun: { 200: '#FFE89A', 300: '#FFD84D', 400: '#FFC61A' },
-                        ink: '#1E1230',
-                        cream: '#FFF9F1',
-                    },
-                    fontFamily: {
-                        display: ['Fraunces', 'Georgia', 'serif'],
-                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        soft: '0 10px 40px -12px rgba(42, 10, 77, 0.18)',
-                        lift: '0 24px 60px -18px rgba(42, 10, 77, 0.35)',
-                    },
-                },
-            },
-        };
-    </script>
-    <style>
-        .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
-        .reveal.is-visible { opacity: 1; transform: none; }
-        @media (prefers-reduced-motion: reduce) {
-            .reveal { opacity: 1; transform: none; transition: none; }
-            html { scroll-behavior: auto; }
-        }
-        details > summary::-webkit-details-marker { display: none; }
-        details[open] .faq-icon { transform: rotate(45deg); }
-        .nav-link { position: relative; }
-        .nav-link::after { content: ''; position: absolute; left: 1rem; right: 1rem; bottom: .35rem; height: 2px; border-radius: 2px; background: #F28A1C; transform: scaleX(0); transform-origin: left; transition: transform .25s ease; }
-        .nav-link:hover::after, .nav-link[aria-current="true"]::after { transform: scaleX(1); }
-        .nav-link[aria-current="true"] { color: #5A16A0; }
-        #site-header.is-scrolled { box-shadow: 0 8px 30px -12px rgba(42, 10, 77, .25); border-color: #EBDDFB; }
-        .hdr-inner, .hdr-logo { transition: padding .3s ease, height .3s ease; }
-        #site-header.is-scrolled .hdr-inner { padding-top: .5rem; padding-bottom: .5rem; }
-        #site-header.is-scrolled .hdr-logo { height: 3rem; }
-        [data-mega].is-dismissed .mega-panel { visibility: hidden !important; opacity: 0 !important; }
-        .sunburst { background: radial-gradient(circle at 50% 100%, #FFC61A 0 22%, transparent 22.5%), repeating-conic-gradient(from -90deg at 50% 100%, #F99E38 0 6deg, transparent 6deg 18deg); }
-    </style>
-</head>
 <body id="top" class="bg-cream font-sans text-ink antialiased pb-20 lg:pb-0">
 
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
@@ -206,7 +110,7 @@ function e(string $s): string
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6">
         <p class="flex items-center gap-2">
             <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60 motion-reduce:hidden"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span></span>
-            <span><span class="font-medium text-white">Accepting new patients</span><span class="hidden sm:inline"> · Arizona &amp; Washington · In person &amp; telehealth</span></span>
+            <span><span class="font-medium text-white">Accepting new patients</span><span class="hidden sm:inline"> · Arizona &amp; Washington · In Person &amp; Telehealth</span></span>
         </p>
         <div class="flex items-center gap-4">
             <a href="#locations" class="hidden items-center gap-1.5 hover:text-white md:inline-flex"><?= icon('pin', 'h-3.5 w-3.5 text-sun-300') ?>Mesa, AZ</a>
@@ -319,9 +223,9 @@ function e(string $s): string
 <main id="main">
 
     <!-- ============ HERO ============ -->
-    <!-- Background: Trevor Minett / Unsplash (Sedona, AZ). TODO swap for real Thrive / Mesa photography -->
+    <!-- Background: Luigi Ritchie / Unsplash (Superstition Mountains, near Mesa AZ). TODO swap for real Thrive / Mesa photography -->
     <section class="relative isolate flex min-h-[640px] items-center overflow-hidden bg-grape-900 lg:min-h-[760px]">
-        <img src="assets/img/hero-sedona-2560.webp" srcset="assets/img/hero-sedona-1280.webp 1280w, assets/img/hero-sedona-2560.webp 2560w" sizes="100vw" alt="Family and friends enjoying a sunny afternoon on the red rocks of Sedona, Arizona" class="absolute inset-0 -z-20 h-full w-full object-cover object-[78%_62%] lg:object-[center_62%]" fetchpriority="high">
+        <img src="assets/img/hero-superstition-2560.webp" srcset="assets/img/hero-superstition-1280.webp 1280w, assets/img/hero-superstition-2560.webp 2560w" sizes="100vw" alt="Hiker on a desert trail toward the Superstition Mountains near Mesa, Arizona, at golden hour" class="absolute inset-0 -z-20 h-full w-full object-cover object-[55%_center] lg:object-[center_55%]" fetchpriority="high">
         <div class="absolute inset-0 -z-10 bg-gradient-to-r from-grape-900/95 via-grape-900/75 to-grape-900/50 lg:via-grape-900/50 lg:to-transparent"></div>
         <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-grape-900/70 to-transparent"></div>
 
@@ -329,7 +233,7 @@ function e(string $s): string
             <div class="max-w-2xl">
                 <p class="reveal mb-6 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium text-white ring-1 ring-white/25 backdrop-blur">
                     <span class="h-2 w-2 rounded-full bg-sun-300"></span>
-                    Psychiatry &amp; wellness in Mesa, AZ &amp; Vancouver, WA
+                    Psychiatry &amp; Wellness in Mesa, AZ &amp; Vancouver, WA
                 </p>
                 <h1 class="reveal font-display text-5xl font-semibold leading-[1.02] tracking-tight text-white sm:text-6xl xl:text-7xl">
                     Don't just get by.<br>
@@ -351,10 +255,10 @@ function e(string $s): string
                 </div>
 
                 <ul class="reveal mt-10 grid grid-cols-2 gap-x-6 gap-y-3 text-sm font-medium text-white/90 sm:flex sm:flex-wrap">
-                    <li class="flex items-center gap-2"><span class="text-sun-300"><?= icon('clock', 'h-5 w-5') ?></span>90-minute first visits</li>
-                    <li class="flex items-center gap-2"><span class="text-sun-300"><?= icon('message', 'h-5 w-5') ?></span>Text-friendly</li>
+                    <li class="flex items-center gap-2"><span class="text-sun-300"><?= icon('clock', 'h-5 w-5') ?></span>90-Minute First Visits</li>
+                    <li class="flex items-center gap-2"><span class="text-sun-300"><?= icon('message', 'h-5 w-5') ?></span>Text-Friendly</li>
                     <li class="flex items-center gap-2"><span class="text-sun-300"><?= icon('moon', 'h-5 w-5') ?></span>Evenings &amp; Saturdays</li>
-                    <li class="flex items-center gap-2"><span class="text-sun-300"><?= icon('video', 'h-5 w-5') ?></span>In person or telehealth</li>
+                    <li class="flex items-center gap-2"><span class="text-sun-300"><?= icon('video', 'h-5 w-5') ?></span>In-Person or Telehealth</li>
                 </ul>
             </div>
         </div>
@@ -389,7 +293,7 @@ function e(string $s): string
                             <span class="absolute left-6 top-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-grape-900/35 text-sun-300 ring-1 ring-white/25 backdrop-blur-md transition group-hover:bg-sunrise-500 group-hover:text-white group-hover:ring-sunrise-500"><?= icon($s['icon'], 'h-6 w-6') ?></span>
                             <h3 class="font-display text-2xl font-semibold leading-tight"><?= e($s['title']) ?></h3>
                             <p class="mt-1.5 text-white/80"><?= e($s['short']) ?></p>
-                            <span class="mt-4 inline-flex items-center gap-2 font-bold text-sun-300">Learn more <?= icon('arrow', 'h-5 w-5 transition group-hover:translate-x-1') ?></span>
+                            <span class="mt-4 inline-flex items-center gap-2 font-bold text-sun-300">Learn More <?= icon('arrow', 'h-5 w-5 transition group-hover:translate-x-1') ?></span>
                         </a>
                     <?php endif; ?>
                 <?php endforeach; ?>
@@ -415,7 +319,7 @@ function e(string $s): string
                         We take the time to understand you, we answer when you reach out, and we make decisions with you, not for you.
                     </p>
                     <a href="#get-started" class="group mt-8 inline-flex items-center gap-2 font-bold text-grape-700">
-                        <span class="border-b-2 border-sunrise-400 pb-0.5 transition group-hover:border-grape-600">Get started</span>
+                        <span class="border-b-2 border-sunrise-400 pb-0.5 transition group-hover:border-grape-600">Get Started</span>
                         <?= icon('arrow', 'h-5 w-5 transition group-hover:translate-x-1') ?>
                     </a>
                 </div>
@@ -471,7 +375,7 @@ function e(string $s): string
                             Take the TMS Quiz
                         </button>
                         <a href="#get-started" data-service="TMS with ExoMind" class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/40 px-8 py-4 text-lg font-bold transition hover:border-white hover:bg-white hover:text-grape-900">
-                            Book a free consultation
+                            Book a Free Consultation
                         </a>
                     </div>
                 </div>
@@ -521,8 +425,8 @@ function e(string $s): string
                     <p>My goal isn't just for you to feel "less bad." It's for you to get back to <strong class="text-grape-800">living</strong>: showing up for your family, enjoying your friends, doing well at work and school, and feeling like yourself again.</p>
                 </div>
                 <div class="mt-8 flex flex-wrap gap-3">
-                    <a href="#get-started" class="inline-flex items-center gap-2 rounded-full bg-grape-600 px-7 py-3.5 font-bold text-white transition hover:-translate-y-0.5 hover:bg-grape-700">Request a consultation <?= icon('arrow', 'h-5 w-5') ?></a>
-                    <a href="sms:<?= $practice['phone_raw'] ?>" class="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-bold text-grape-700 ring-1 ring-grape-200 transition hover:ring-grape-400"><?= icon('message', 'h-5 w-5') ?> Text the office</a>
+                    <a href="#get-started" class="inline-flex items-center gap-2 rounded-full bg-grape-600 px-7 py-3.5 font-bold text-white transition hover:-translate-y-0.5 hover:bg-grape-700">Request a Consultation <?= icon('arrow', 'h-5 w-5') ?></a>
+                    <a href="sms:<?= $practice['phone_raw'] ?>" class="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-bold text-grape-700 ring-1 ring-grape-200 transition hover:ring-grape-400"><?= icon('message', 'h-5 w-5') ?> Text the Office</a>
                 </div>
             </div>
         </div>
@@ -583,7 +487,7 @@ function e(string $s): string
         </div>
     </section>
 
-    <!-- ============ REVIEWS + VIDEOS ============ -->
+    <!-- ============ REVIEWS ============ -->
     <section class="py-16 lg:py-24">
         <div class="mx-auto max-w-7xl px-4 sm:px-6">
             <div class="reveal flex flex-col justify-between gap-6 md:flex-row md:items-end">
@@ -612,27 +516,6 @@ function e(string $s): string
                     </figure>
                 <?php endfor; ?>
             </div>
-
-            <!-- Video gallery: TODO swap thumbnails/links for Thrive's social videos -->
-            <div class="mt-20">
-                <h3 class="reveal font-display text-2xl font-semibold text-grape-900 sm:text-3xl">Get to know Thrive</h3>
-                <div class="mt-8 grid gap-5 sm:grid-cols-3">
-                    <?php
-                    $videos = [
-                        ['assets/img/exomind-applicator.webp', 'What an ExoMind session looks like'],
-                        ['assets/img/jennifer.webp', 'A message from Jennifer'],
-                        ['assets/img/stock-3.webp', 'Tour our Mesa office'],
-                    ];
-                    foreach ($videos as [$thumb, $label]): ?>
-                        <button type="button" class="reveal group relative aspect-video overflow-hidden rounded-3xl text-left shadow-soft">
-                            <img src="<?= e($thumb) ?>" alt="" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
-                            <span class="absolute inset-0 bg-gradient-to-t from-grape-900/80 via-grape-900/10 to-transparent"></span>
-                            <span class="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 pl-1 text-sunrise-500 shadow-lift transition group-hover:scale-110"><?= icon('play', 'h-7 w-7') ?></span>
-                            <span class="absolute bottom-4 left-5 right-5 font-display text-lg font-semibold text-white"><?= e($label) ?></span>
-                        </button>
-                    <?php endforeach; ?>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -655,7 +538,7 @@ function e(string $s): string
                         <div class="space-y-4">
                             <p class="flex gap-3"><span class="text-grape-600"><?= icon('pin') ?></span><span><?= e($practice['mesa_addr']) ?><br><?= e($practice['mesa_city']) ?></span></p>
                             <p class="flex gap-3"><span class="text-grape-600"><?= icon('phone') ?></span><a href="tel:<?= $practice['phone_raw'] ?>" class="font-medium hover:text-grape-600"><?= e($practice['phone']) ?></a></p>
-                            <a href="<?= e($practice['maps']) ?>" target="_blank" rel="noopener" class="inline-flex items-center gap-2 font-bold text-grape-600 hover:text-grape-800">Get directions <?= icon('arrow', 'h-5 w-5') ?></a>
+                            <a href="<?= e($practice['maps']) ?>" target="_blank" rel="noopener" class="inline-flex items-center gap-2 font-bold text-grape-600 hover:text-grape-800">Get Directions <?= icon('arrow', 'h-5 w-5') ?></a>
                         </div>
                         <!-- TODO: confirm current hours with Jennifer (old site lists conflicting schedules) -->
                         <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-sm">
@@ -671,7 +554,7 @@ function e(string $s): string
                     <p class="mt-4 text-ink/75">Jennifer continues to see patients in Southwest Washington through in-person and telehealth visits.</p>
                     <!-- TODO: add Vancouver address / visit schedule once confirmed -->
                     <p class="mt-4 flex gap-3"><span class="text-grape-600"><?= icon('video') ?></span>Telehealth available statewide</p>
-                    <a href="#get-started" data-location="Vancouver, WA" class="mt-auto inline-flex items-center gap-2 pt-6 font-bold text-grape-600 hover:text-grape-800">Request a Vancouver appointment <?= icon('arrow', 'h-5 w-5') ?></a>
+                    <a href="#get-started" data-location="Vancouver, WA" class="mt-auto inline-flex items-center gap-2 pt-6 font-bold text-grape-600 hover:text-grape-800">Request a Vancouver Appointment <?= icon('arrow', 'h-5 w-5') ?></a>
                 </article>
             </div>
 
@@ -765,12 +648,16 @@ function e(string $s): string
                             <?php endforeach; ?>
                         </div>
                     </fieldset>
+                    <label class="block sm:col-span-2">
+                        <span class="<?= $label ?>">Message <span class="normal-case tracking-normal font-normal">(optional)</span></span>
+                        <textarea name="message" rows="3" placeholder="Anything you'd like us to know, like the best time to reach you" class="<?= $field ?> resize-y"></textarea>
+                    </label>
                 </div>
 
                 <div class="mt-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                     <label class="flex max-w-xs items-start gap-3 text-sm text-ink/55">
                         <input required type="checkbox" name="consent" class="mt-0.5 h-4 w-4 shrink-0 rounded border-grape-300 text-grape-600 focus:ring-grape-500">
-                        <span>OK to contact me. Please don't share medical details here.</span>
+                        <span>OK to contact me by text, call or email. Msg &amp; data rates may apply; reply STOP to opt out. Please don't share medical details here. <a href="/privacy" class="font-bold text-grape-700 underline underline-offset-2">Privacy Policy</a></span>
                     </label>
                     <button type="submit" class="group inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-sunrise-500 px-8 py-4 font-bold text-white transition hover:-translate-y-0.5 hover:bg-sunrise-600">
                         Request a Consultation <?= icon('arrow', 'h-5 w-5 transition group-hover:translate-x-1') ?>
@@ -832,6 +719,7 @@ function e(string $s): string
                         <a href="tel:<?= $practice['phone_raw'] ?>" class="mt-2 inline-flex text-sm font-bold text-sun-300 hover:text-white"><?= e($practice['phone']) ?></a>
                     </div>
                 </div>
+                <iframe src="<?= e($practice['maps_embed']) ?>" title="Map of Thrive Psychiatry & Wellness in Mesa, AZ" class="mt-6 h-48 w-full rounded-2xl border-0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </div>
 
@@ -844,7 +732,7 @@ function e(string $s): string
         <!-- Legal -->
         <div class="flex flex-col justify-between gap-3 py-8 text-sm text-white/40 sm:flex-row">
             <p>&copy; <?= date('Y') ?> Thrive Psychiatry &amp; Wellness LLC</p>
-            <p class="flex gap-6"><a href="#" class="hover:text-white">Privacy Policy</a><a href="#" class="hover:text-white">Terms</a><a href="#top" class="hover:text-white">Back to top ↑</a></p>
+            <p class="flex gap-6"><a href="/privacy" class="hover:text-white">Privacy Policy</a><a href="/terms" class="hover:text-white">Terms</a><a href="#top" class="hover:text-white">Back to top ↑</a></p>
         </div>
     </div>
 </footer>
