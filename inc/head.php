@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= e($page_title) ?></title>
     <meta name="description" content="<?= e($page_description) ?>">
+<?php if (!empty($page_noindex)): ?>
+    <meta name="robots" content="noindex">
+<?php endif; ?>
     <link rel="icon" href="assets/img/logo.webp">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">

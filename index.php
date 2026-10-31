@@ -10,13 +10,12 @@
  *    photography from Jennifer's shared Drive (office, Weston, team, ExoMind room).
  *  - Testimonial / Google Reviews / video slots are layout placeholders — do not ship
  *    invented quotes. Wire to a reviews widget + real videos.
- *  - Contact + quiz forms post nowhere yet (see FORM_ENDPOINT). Route through a
- *    HIPAA-appropriate form provider before launch.
+ *  - Contact form posts to Formester (see FORM_ENDPOINT). The TMS quiz posts nowhere yet.
  */
 
 require __DIR__ . '/inc/site.php';
 
-const FORM_ENDPOINT = '#'; // TODO: HIPAA-compliant form handler
+const FORM_ENDPOINT = 'https://app.formester.com/forms/wOwLXI7iE/submissions'; // Formester; set its success redirect to /thank-you
 
 // Ordered by Jennifer's service priority. TMS is rendered as the featured card.
 // Card photos are Unsplash placeholders: ADHD by Compare Fibre, Medication by Alef Morais,
@@ -608,7 +607,7 @@ require __DIR__ . '/inc/head.php';
                 </a>
             </div>
 
-            <form id="contact-form" action="<?= FORM_ENDPOINT ?>" method="post" class="reveal rounded-[2rem] bg-white p-7 sm:p-10 lg:col-span-7">
+            <form id="contact-form" action="<?= FORM_ENDPOINT ?>" method="post" accept-charset="UTF-8" class="reveal rounded-[2rem] bg-white p-7 sm:p-10 lg:col-span-7">
                 <div class="grid gap-x-8 gap-y-7 sm:grid-cols-2">
                     <label class="block">
                         <span class="<?= $label ?>">Name</span>
@@ -663,7 +662,6 @@ require __DIR__ . '/inc/head.php';
                         Request a Consultation <?= icon('arrow', 'h-5 w-5 transition group-hover:translate-x-1') ?>
                     </button>
                 </div>
-                <p data-form-success class="mt-6 hidden text-center font-medium text-grape-700">Thanks! We'll be in touch soon, usually the same business day.</p>
             </form>
         </div>
     </section>
@@ -827,9 +825,9 @@ require __DIR__ . '/inc/head.php';
     const form = document.getElementById('contact-form');
     form.addEventListener('submit', (ev) => {
         if (form.getAttribute('action') !== '#') return;
+        // No handler yet: skip the POST and show the thank-you page the provider will redirect to.
         ev.preventDefault();
-        form.querySelector('[data-form-success]').classList.remove('hidden');
-        form.querySelector('button[type=submit]').disabled = true;
+        window.location.href = '/thank-you';
     });
 
     // TMS Quiz
