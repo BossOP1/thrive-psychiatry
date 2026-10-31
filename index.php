@@ -633,8 +633,8 @@ require __DIR__ . '/inc/head.php';
                         </select>
                     </label>
                     <label class="block">
-                        <span class="<?= $label ?>">Email <span class="normal-case tracking-normal font-normal">(optional)</span></span>
-                        <input name="email" type="email" autocomplete="email" placeholder="you@email.com" class="<?= $field ?>">
+                        <span class="<?= $label ?>">Email</span>
+                        <input required name="email" type="email" autocomplete="email" placeholder="you@email.com" class="<?= $field ?>">
                     </label>
                     <fieldset>
                         <legend class="<?= $label ?>">Reach me by</legend>

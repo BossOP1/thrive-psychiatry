@@ -22,7 +22,7 @@ require __DIR__ . '/inc/legal-header.php';
             <p>Once you become a patient, the health information we keep about you is protected under HIPAA and handled as described in our <strong>Notice of Privacy Practices</strong>. You'll receive a copy when you start care, and you can ask for one at any time by calling or texting <a href="tel:<?= $practice['phone_raw'] ?>"><?= e($practice['phone']) ?></a>. If this policy and the Notice of Privacy Practices ever differ about your health information, the Notice of Privacy Practices applies.</p>
 
             <h2>Information we collect</h2>
-            <p><strong>Information you give us.</strong> When you fill out our contact form, we collect your name, mobile phone number, email address (if you provide it), the service and location you're interested in, how you'd like us to reach you, and any message you include. If you text or call us, we receive your phone number and what you send.</p>
+            <p><strong>Information you give us.</strong> When you fill out our contact form, we collect your name, mobile phone number, email address, the service and location you're interested in, how you'd like us to reach you, and any message you include. If you text or call us, we receive your phone number and what you send.</p>
             <p><strong>Information collected automatically.</strong> Like most websites, our hosting provider and the services that deliver our fonts and page code may receive basic technical information when you visit, such as your IP address, browser type, device type and the pages you view.</p>
             <p>Please don't include detailed medical information in our website form. We'll talk through your history privately once we're in touch.</p>
 
