@@ -8,8 +8,7 @@
  * Content notes for the team:
  *  - Stock photos (assets/img/stock-*.webp) are placeholders. Replace with real Thrive
  *    photography from Jennifer's shared Drive (office, Weston, team, ExoMind room).
- *  - Testimonial / Google Reviews / video slots are layout placeholders — do not ship
- *    invented quotes. Wire to a reviews widget + real videos.
+ *  - Reviews are real Google reviews (see $reviews). Only add verbatim quotes.
  *  - Contact form posts to Formester (see FORM_ENDPOINT). The TMS quiz posts nowhere yet.
  */
 
@@ -94,6 +93,15 @@ $faqs = [
         'q' => 'Do you have evening or weekend appointments?',
         'a' => 'Yes. We see patients into the evening several days a week and offer select Saturday appointments, so care fits around work, school and family.',
     ],
+];
+
+// Google reviews (verbatim). Shown as first name + last initial.
+$reviews = [
+    ['Jennifer E.', 'Jennifer\'s ability to figure out which meds will make a positive difference in your life is worth seeing her for. In addition, her PA, Watson, was a perfect fit for my bi-polar adult son. And when his insurance balked at approving his meds, Watson jumped in and got it fixed. I appreciate both of these people!'],
+    ['Chris C.', 'Jennifer is incredible! I see a huuugggeee difference in my sons demeanor, and personality after one visit. I\'d highly, highly recommend her. She really takes the time to hear you out, and never makes you feel judged, or looked down on. If you, or your child is struggling, Give her a call! She can help!'],
+    ['Arianna C.', 'I have had a great experience with Jennifer! She has helped diagnose and treat me for a couple mental illnesses I had been struggling with for years. I am very happy now with the treatment she has given me. She listens to my concerns and works with me to get a working treatment plan'],
+    ['Scott H.', 'Over all the experience has been wonderful. Jennifer is very knowledgable and provides great perspective on issues, offering up real solutions. Actively listens and is very helpful. Highly recommend Jennifer air you are in need of her services. She is one of the best, and I have seen a few in my day.'],
+    ['Cheyann L.', 'Very attentive and friendly. Addresses concerns and gets back to you in a timely manner when needed.'],
 ];
 
 $page_title = 'Thrive Psychiatry & Wellness | TMS, ADHD & Psychiatry in Mesa, AZ & Vancouver, WA';
@@ -503,18 +511,26 @@ require __DIR__ . '/inc/head.php';
                 </div>
             </div>
 
-            <!-- Google Reviews widget mounts here. Placeholder cards below show the layout only. -->
-            <div id="google-reviews" class="mt-12 grid gap-5 md:grid-cols-3">
-                <?php for ($r = 0; $r < 3; $r++): ?>
-                    <figure class="reveal flex flex-col rounded-[2rem] bg-white p-8 shadow-soft ring-1 ring-grape-100">
-                        <span class="flex text-sun-400">
-                            <?php for ($k = 0; $k < 5; $k++): ?><svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><?php endfor; ?>
-                        </span>
-                        <blockquote class="mt-4 flex-1 text-lg italic text-ink/40">[Patient review pulled from Google Reviews]</blockquote>
-                        <figcaption class="mt-6 text-sm font-bold text-ink/40">[Reviewer name] · Google</figcaption>
+            <div id="google-reviews" class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-6">
+                <?php foreach ($reviews as $i => [$who, $quote]): ?>
+                    <figure class="reveal flex flex-col rounded-[2rem] bg-white p-8 shadow-soft ring-1 ring-grape-100 <?= $i < 3 ? 'lg:col-span-2' : 'lg:col-span-3' ?> <?= $i === 4 ? 'md:col-span-2' : '' ?>">
+                        <span class="block font-display text-6xl leading-[0.5] text-sunrise-400" aria-hidden="true">&ldquo;</span>
+                        <blockquote class="mt-4 flex-1 text-lg leading-relaxed text-ink/75"><?= e($quote) ?></blockquote>
+                        <figcaption class="mt-6 flex items-center gap-3">
+                            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-grape-100 font-bold text-grape-700"><?= e($who[0]) ?></span>
+                            <span class="leading-tight">
+                                <span class="block font-bold text-grape-900"><?= e($who) ?></span>
+                                <span class="block text-sm text-ink/50">Google review</span>
+                            </span>
+                        </figcaption>
                     </figure>
-                <?php endfor; ?>
+                <?php endforeach; ?>
             </div>
+
+            <a href="<?= e($practice['maps']) ?>" target="_blank" rel="noopener" class="reveal group mt-6 inline-flex items-center gap-2 font-bold text-grape-700">
+                <span class="border-b-2 border-sunrise-400 pb-0.5 transition group-hover:border-grape-600">See all reviews on Google</span>
+                <?= icon('arrow', 'h-5 w-5 transition group-hover:translate-x-1') ?>
+            </a>
         </div>
     </section>
 
