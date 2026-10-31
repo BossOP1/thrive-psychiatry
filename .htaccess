@@ -1,0 +1,97 @@
+# Apache / LiteSpeed config for wethrivepsychiatry.com on the VPS.
+# Works whether the PHP files or the built dist/ HTML are uploaded.
+
+Options -MultiViews -Indexes
+DirectoryIndex index.php index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Uncomment once SSL is installed to force HTTPS + www
+    # RewriteCond %{HTTPS} off [OR]
+    # RewriteCond %{HTTP_HOST} !^www\. [NC]
+    # RewriteRule ^ https://www.wethrivepsychiatry.com%{REQUEST_URI} [R=301,L]
+
+    # Keep internal files private
+    RewriteRule ^(inc/|build\.php$|netlify\.toml$|\.git) - [F,L]
+
+    # Old WordPress pages -> homepage (assets/img/redirection/thrive_psychiatry_sitemap.csv)
+    # New Patients
+    RewriteRule ^new-patients/?$ /? [R=301,L,NC]
+    # Meet Us
+    RewriteRule ^meet-us/?$ /? [R=301,L,NC]
+    # Patient Portal
+    RewriteRule ^patient-portal/?$ /? [R=301,L,NC]
+    # Insurance & Payment Options
+    RewriteRule ^insurance-and-payment-options/?$ /? [R=301,L,NC]
+    # Contact
+    RewriteRule ^contact/?$ /? [R=301,L,NC]
+    # FAQs
+    RewriteRule ^faq-s/?$ /? [R=301,L,NC]
+    # Blog Toolkit
+    RewriteRule ^blog(/.*)?$ /? [R=301,L,NC]
+    # Therapy Recommendations
+    RewriteRule ^therapy-recommendations/?$ /? [R=301,L,NC]
+    # Services
+    RewriteRule ^services/?$ /? [R=301,L,NC]
+    # ADHD Testing
+    RewriteRule ^adhd-testing/?$ /? [R=301,L,NC]
+    # Anger Management
+    RewriteRule ^anger-management/?$ /? [R=301,L,NC]
+    # Anxiety & Depression
+    RewriteRule ^anxiety-and-depression/?$ /? [R=301,L,NC]
+    # Behavioral Disorders
+    RewriteRule ^behavioral-health/?$ /? [R=301,L,NC]
+    # Bipolar Disorder / Mood Disorders
+    RewriteRule ^mood-disorders/?$ /? [R=301,L,NC]
+    # Cognitive Decline
+    RewriteRule ^cognitive-decline/?$ /? [R=301,L,NC]
+    # EMTONE
+    RewriteRule ^emtone/?$ /? [R=301,L,NC]
+    # EXOMIND
+    RewriteRule ^exomind/?$ /? [R=301,L,NC]
+    # Insomnia
+    RewriteRule ^insomnia/?$ /? [R=301,L,NC]
+    # Schizophrenia
+    RewriteRule ^schizophrenia/?$ /? [R=301,L,NC]
+    # Substance Use Disorder
+    RewriteRule ^what-is-a-substance-use-disorder/?$ /? [R=301,L,NC]
+    # Transcranial Magnetic Stimulation (TMS)
+    RewriteRule ^transcranial-magnetic-stimulation/?$ /? [R=301,L,NC]
+    # Brain Fog
+    RewriteRule ^brain-fog/?$ /? [R=301,L,NC]
+    # The Importance of Psychiatric Care
+    RewriteRule ^the-importance-of-psychiatric-care/?$ /? [R=301,L,NC]
+    # Wellness Treatment
+    RewriteRule ^wellness-treatment/?$ /? [R=301,L,NC]
+
+    # /index.php or /index.html -> /
+    RewriteCond %{THE_REQUEST} \s/+index\.(php|html)[\s?] [NC]
+    RewriteRule ^ / [R=301,L]
+
+    # /privacy.php or /privacy.html -> /privacy
+    RewriteCond %{THE_REQUEST} \s/+([^.\s?]+)\.(php|html)[\s?] [NC]
+    RewriteRule ^ /%1 [R=301,L]
+
+    # /privacy -> privacy.php (PHP upload) or privacy.html (dist/ upload)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^([^/]+)$ $1.php [L]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^([^/]+)$ $1.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    <FilesMatch "\.(webp|png|jpe?g|svg|ico)$">
+        Header set Cache-Control "public, max-age=604800"
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml
+</IfModule>
