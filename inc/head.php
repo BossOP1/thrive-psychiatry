@@ -59,4 +59,24 @@
         [data-mega].is-dismissed .mega-panel { visibility: hidden !important; opacity: 0 !important; }
         .sunburst { background: radial-gradient(circle at 50% 100%, #FFC61A 0 22%, transparent 22.5%), repeating-conic-gradient(from -90deg at 50% 100%, #F99E38 0 6deg, transparent 6deg 18deg); }
     </style>
+    <script>
+        // Computers can't place calls or texts, so tel:/sms: links only open an app picker there.
+        // With a mouse, show them as plain text: swap in [data-desktop] labels, drop [data-desktop-hide] bits.
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+            const linkish = (c) => c === 'group' || c.includes('hover:') || /^(underline|decoration-|border-b-2$|border-sunrise-400$)/.test(c);
+            document.querySelectorAll('a[href^="tel:"], a[href^="sms:"]').forEach((a) => {
+                if (a.hasAttribute('data-desktop-hide')) return a.remove();
+                a.querySelectorAll('[data-desktop]').forEach((el) => { el.textContent = el.dataset.desktop; });
+                a.querySelectorAll('[data-desktop-hide]').forEach((el) => el.remove());
+                [a, ...a.querySelectorAll('[class]')].forEach((el) => {
+                    el.setAttribute('class', (el.getAttribute('class') || '').split(/\s+/).filter((c) => !linkish(c)).join(' '));
+                });
+                const span = document.createElement('span');
+                span.className = a.className;
+                span.append(...a.childNodes);
+                a.replaceWith(span);
+            });
+        });
+    </script>
 </head>

@@ -93,6 +93,10 @@ $faqs = [
         'q' => 'Do you have evening or weekend appointments?',
         'a' => 'Yes. We see patients into the evening several days a week and offer select Saturday appointments, so care fits around work, school and family.',
     ],
+    [
+        'q' => 'What should I do in a mental health crisis?',
+        'a' => 'If you or someone else is in immediate danger, call 911 or go to the nearest emergency room. For a mental health crisis, call or text 988 any time. In Arizona you can also call the statewide crisis line at 1-844-534-HOPE (4673), and in Southwest Washington call 1-800-626-8137. Our office can\'t respond to emergencies, so please don\'t wait for a call back from us. See our Crisis Resources page for more.',
+    ],
 ];
 
 // Google reviews (verbatim). Shown as first name + last initial.
@@ -117,12 +121,14 @@ require __DIR__ . '/inc/head.php';
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6">
         <p class="flex items-center gap-2">
             <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60 motion-reduce:hidden"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span></span>
-            <span><span class="font-medium text-white">Accepting new patients</span><span class="hidden sm:inline"> · Arizona &amp; Washington · In Person &amp; Telehealth</span></span>
+            <span><span class="font-medium text-white">Accepting new patients</span><span class="hidden lg:inline"> · Arizona &amp; Washington · In Person &amp; Telehealth</span></span>
         </p>
         <div class="flex items-center gap-4">
-            <a href="#locations" class="hidden items-center gap-1.5 hover:text-white md:inline-flex"><?= icon('pin', 'h-3.5 w-3.5 text-sun-300') ?>Mesa, AZ</a>
-            <a href="#locations" class="hidden items-center gap-1.5 hover:text-white md:inline-flex"><?= icon('pin', 'h-3.5 w-3.5 text-sun-300') ?>Vancouver, WA</a>
-            <span class="hidden h-3.5 w-px bg-white/20 md:block"></span>
+            <a href="#locations" class="hidden items-center gap-1.5 hover:text-white xl:inline-flex"><?= icon('pin', 'h-3.5 w-3.5 text-sun-300') ?>Mesa, AZ</a>
+            <a href="#locations" class="hidden items-center gap-1.5 hover:text-white xl:inline-flex"><?= icon('pin', 'h-3.5 w-3.5 text-sun-300') ?>Vancouver, WA</a>
+            <span class="hidden h-3.5 w-px bg-white/20 xl:block"></span>
+            <a href="/crisis" class="inline-flex items-center gap-1.5 font-bold text-sun-300 hover:text-white"><?= icon('heart', 'h-3.5 w-3.5') ?><span class="sm:hidden">Crisis? 988</span><span class="hidden sm:inline">In crisis? Call or text 988</span></a>
+            <span class="h-3.5 w-px bg-white/20"></span>
             <a href="<?= e($practice['portal']) ?>" class="font-medium hover:text-white" target="_blank" rel="noopener">Patient Portal</a>
         </div>
     </div>
@@ -183,7 +189,7 @@ require __DIR__ . '/inc/head.php';
             <a href="sms:<?= $practice['phone_raw'] ?>" class="group hidden items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-4 ring-1 ring-grape-100 transition hover:bg-grape-50 hover:ring-grape-200 xl:inline-flex">
                 <span class="flex h-9 w-9 items-center justify-center rounded-full bg-grape-600 text-white"><?= icon('message', 'h-4 w-4') ?></span>
                 <span class="leading-tight">
-                    <span class="block text-[11px] font-medium uppercase tracking-wider text-ink/50">Text us</span>
+                    <span class="block text-[11px] font-medium uppercase tracking-wider text-ink/50" data-desktop="Call or text">Text us</span>
                     <span class="block text-sm font-bold text-grape-900"><?= e($practice['phone']) ?></span>
                 </span>
             </a>
@@ -219,8 +225,8 @@ require __DIR__ . '/inc/head.php';
                 <a href="#faq" class="py-2.5">FAQ</a>
             </div>
             <div class="mt-4 grid grid-cols-2 gap-3">
-                <a href="sms:<?= $practice['phone_raw'] ?>" class="flex items-center justify-center gap-2 rounded-full py-3 font-bold text-grape-700 ring-1 ring-grape-200"><?= icon('message', 'h-5 w-5') ?>Text us</a>
-                <a href="tel:<?= $practice['phone_raw'] ?>" class="flex items-center justify-center gap-2 rounded-full py-3 font-bold text-grape-700 ring-1 ring-grape-200"><?= icon('phone', 'h-5 w-5') ?>Call</a>
+                <a href="sms:<?= $practice['phone_raw'] ?>" class="flex items-center justify-center gap-2 rounded-full py-3 font-bold text-grape-700 ring-1 ring-grape-200"><?= icon('message', 'h-5 w-5') ?><span data-desktop="Call or text">Text us</span></a>
+                <a href="tel:<?= $practice['phone_raw'] ?>" class="flex items-center justify-center gap-2 rounded-full py-3 font-bold text-grape-700 ring-1 ring-grape-200"><?= icon('phone', 'h-5 w-5') ?><span data-desktop="<?= e($practice['phone']) ?>">Call</span></a>
             </div>
             <a href="#get-started" class="mt-3 flex items-center justify-center gap-2 rounded-full bg-sunrise-500 py-3.5 font-bold text-white">Get Started <?= icon('arrow', 'h-5 w-5') ?></a>
         </div>
@@ -230,9 +236,9 @@ require __DIR__ . '/inc/head.php';
 <main id="main">
 
     <!-- ============ HERO ============ -->
-    <!-- Background: Luigi Ritchie / Unsplash (Superstition Mountains, near Mesa AZ). TODO swap for real Thrive / Mesa photography -->
+    <!-- Background: Tommie Guy / Unsplash (family on a high-desert hillside). TODO swap for real Thrive / Mesa photography -->
     <section class="relative isolate flex min-h-[640px] items-center overflow-hidden bg-grape-900 lg:min-h-[760px]">
-        <img src="assets/img/hero-superstition-2560.webp" srcset="assets/img/hero-superstition-1280.webp 1280w, assets/img/hero-superstition-2560.webp 2560w" sizes="100vw" alt="Hiker on a desert trail toward the Superstition Mountains near Mesa, Arizona, at golden hour" class="absolute inset-0 -z-20 h-full w-full object-cover object-[55%_center] lg:object-[center_55%]" fetchpriority="high">
+        <img src="assets/img/hero-family-2560.webp" srcset="assets/img/hero-family-1280.webp 1280w, assets/img/hero-family-2560.webp 2560w" sizes="100vw" alt="Smiling mother and two daughters sitting together on a sunlit desert hillside" class="absolute inset-0 -z-20 h-full w-full object-cover object-[72%_center] lg:object-[center_30%]" fetchpriority="high">
         <div class="absolute inset-0 -z-10 bg-gradient-to-r from-grape-900/95 via-grape-900/75 to-grape-900/50 lg:via-grape-900/50 lg:to-transparent"></div>
         <div class="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-grape-900/70 to-transparent"></div>
 
@@ -433,7 +439,7 @@ require __DIR__ . '/inc/head.php';
                 </div>
                 <div class="mt-8 flex flex-wrap gap-3">
                     <a href="#get-started" class="inline-flex items-center gap-2 rounded-full bg-grape-600 px-7 py-3.5 font-bold text-white transition hover:-translate-y-0.5 hover:bg-grape-700">Request a Consultation <?= icon('arrow', 'h-5 w-5') ?></a>
-                    <a href="sms:<?= $practice['phone_raw'] ?>" class="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-bold text-grape-700 ring-1 ring-grape-200 transition hover:ring-grape-400"><?= icon('message', 'h-5 w-5') ?> Text the Office</a>
+                    <a href="sms:<?= $practice['phone_raw'] ?>" class="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-bold text-grape-700 ring-1 ring-grape-200 transition hover:ring-grape-400"><?= icon('message', 'h-5 w-5') ?> <span data-desktop="Call or Text <?= e($practice['phone']) ?>">Text the Office</span></a>
                 </div>
             </div>
         </div>
@@ -477,8 +483,8 @@ require __DIR__ . '/inc/head.php';
                                 <p class="mt-2 max-w-lg text-lg leading-relaxed text-ink/60"><?= e($c) ?></p>
                                 <?php if ($n === 0): ?>
                                     <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-bold text-grape-700">
-                                        <a href="sms:<?= $practice['phone_raw'] ?>" class="group inline-flex items-center gap-1.5"><span class="border-b-2 border-sunrise-400 pb-0.5 transition group-hover:border-grape-600">Text us</span><?= icon('arrow', 'h-4 w-4 transition group-hover:translate-x-1') ?></a>
-                                        <a href="tel:<?= $practice['phone_raw'] ?>" class="group inline-flex items-center gap-1.5"><span class="border-b-2 border-sunrise-400 pb-0.5 transition group-hover:border-grape-600">Call</span><?= icon('arrow', 'h-4 w-4 transition group-hover:translate-x-1') ?></a>
+                                        <a href="sms:<?= $practice['phone_raw'] ?>" class="group inline-flex items-center gap-1.5"><span class="border-b-2 border-sunrise-400 pb-0.5 transition group-hover:border-grape-600" data-desktop="Call or text <?= e($practice['phone']) ?>">Text us</span><span data-desktop-hide><?= icon('arrow', 'h-4 w-4 transition group-hover:translate-x-1') ?></span></a>
+                                        <a href="tel:<?= $practice['phone_raw'] ?>" data-desktop-hide class="group inline-flex items-center gap-1.5"><span class="border-b-2 border-sunrise-400 pb-0.5 transition group-hover:border-grape-600">Call</span><?= icon('arrow', 'h-4 w-4 transition group-hover:translate-x-1') ?></a>
                                     </div>
                                 <?php endif; ?>
                             </div>
@@ -590,7 +596,7 @@ require __DIR__ . '/inc/head.php';
             <div class="reveal">
                 <p class="font-bold uppercase tracking-widest text-sunrise-600">FAQ</p>
                 <h2 class="mt-3 font-display text-4xl font-semibold tracking-tight text-grape-900 sm:text-5xl">Questions? We've got you.</h2>
-                <p class="mt-4 text-lg text-ink/70">Don't see yours? <a href="sms:<?= $practice['phone_raw'] ?>" class="font-bold text-grape-600 underline decoration-sunrise-400 decoration-2 underline-offset-4">Text us</a>, we're quick.</p>
+                <p class="mt-4 text-lg text-ink/70">Don't see yours? <a href="sms:<?= $practice['phone_raw'] ?>" class="font-bold text-grape-600 underline decoration-sunrise-400 decoration-2 underline-offset-4"><span data-desktop="Text us at <?= e($practice['phone']) ?>">Text us</span></a>, we're quick.</p>
             </div>
             <div class="space-y-3 lg:col-span-2">
                 <?php foreach ($faqs as $f): ?>
@@ -618,7 +624,7 @@ require __DIR__ . '/inc/head.php';
                 <h2 class="mt-4 font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">Ready to start <span class="text-sun-300">thriving?</span></h2>
                 <p class="mt-6 max-w-md text-lg leading-relaxed text-white/70">Leave a few details and we'll reach out the way you prefer. It takes about a minute.</p>
                 <a href="sms:<?= $practice['phone_raw'] ?>" class="group mt-10 inline-flex items-center gap-2 text-lg font-bold">
-                    <span class="text-white/60">or text us</span>
+                    <span class="text-white/60" data-desktop="or call or text">or text us</span>
                     <span class="border-b-2 border-sunrise-400 pb-0.5 transition group-hover:border-sun-300"><?= e($practice['phone']) ?></span>
                 </a>
             </div>
@@ -692,7 +698,7 @@ require __DIR__ . '/inc/head.php';
             <p class="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl">Don't just get by.<br><span class="text-sun-300">Thrive.</span></p>
             <div class="flex flex-col gap-3 sm:flex-row">
                 <a href="#get-started" class="group inline-flex items-center justify-center gap-2 rounded-full bg-sunrise-500 px-7 py-3.5 font-bold text-white transition hover:-translate-y-0.5 hover:bg-sunrise-600">Get Started <?= icon('arrow', 'h-5 w-5 transition group-hover:translate-x-1') ?></a>
-                <a href="sms:<?= $practice['phone_raw'] ?>" class="inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 font-bold text-white ring-1 ring-white/25 transition hover:bg-white hover:text-ink"><?= icon('message', 'h-5 w-5') ?> Text <?= e($practice['phone']) ?></a>
+                <a href="sms:<?= $practice['phone_raw'] ?>" class="inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 font-bold text-white ring-1 ring-white/25 transition hover:bg-white hover:text-ink"><?= icon('message', 'h-5 w-5') ?> <span data-desktop="Call or Text <?= e($practice['phone']) ?>">Text <?= e($practice['phone']) ?></span></a>
             </div>
         </div>
 
@@ -737,24 +743,20 @@ require __DIR__ . '/inc/head.php';
             </div>
         </div>
 
-        <!-- Crisis -->
-        <p class="flex items-start gap-3 rounded-2xl bg-white/5 px-5 py-4 text-sm leading-relaxed">
-            <span class="mt-0.5 text-sunrise-400"><?= icon('heart', 'h-5 w-5') ?></span>
-            <span><strong class="text-white">In crisis?</strong> Call or text <a href="tel:988" class="font-bold text-white underline decoration-sunrise-400 underline-offset-2">988</a>, AZ Crisis Line <a href="tel:18445344673" class="font-bold text-white underline decoration-sunrise-400 underline-offset-2">(844) 534-4673</a>, SW WA Crisis Line <a href="tel:18006268137" class="font-bold text-white underline decoration-sunrise-400 underline-offset-2">1-800-626-8137</a>, or 911.</span>
-        </p>
+<?php require __DIR__ . '/inc/crisis-note.php'; ?>
 
         <!-- Legal -->
         <div class="flex flex-col justify-between gap-3 py-8 text-sm text-white/40 sm:flex-row">
             <p>&copy; <?= date('Y') ?> Thrive Psychiatry &amp; Wellness LLC</p>
-            <p class="flex gap-6"><a href="/privacy" class="hover:text-white">Privacy Policy</a><a href="/terms" class="hover:text-white">Terms</a><a href="#top" class="hover:text-white">Back to top ↑</a></p>
+            <p class="flex flex-wrap gap-x-6 gap-y-2"><a href="/crisis" class="hover:text-white">Crisis Resources</a><a href="/privacy" class="hover:text-white">Privacy Policy</a><a href="/terms" class="hover:text-white">Terms</a><a href="#top" class="hover:text-white">Back to top ↑</a></p>
         </div>
     </div>
 </footer>
 
 <!-- Mobile action bar -->
 <div class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-3 border-t border-grape-100 bg-white/95 text-sm font-bold backdrop-blur lg:hidden">
-    <a href="sms:<?= $practice['phone_raw'] ?>" class="flex flex-col items-center gap-1 py-3 text-grape-700"><?= icon('message', 'h-5 w-5') ?>Text</a>
-    <a href="tel:<?= $practice['phone_raw'] ?>" class="flex flex-col items-center gap-1 py-3 text-grape-700"><?= icon('phone', 'h-5 w-5') ?>Call</a>
+    <a href="sms:<?= $practice['phone_raw'] ?>" class="flex flex-col items-center gap-1 py-3 text-grape-700"><?= icon('message', 'h-5 w-5') ?><span data-desktop="Call or text">Text</span></a>
+    <a href="tel:<?= $practice['phone_raw'] ?>" class="flex flex-col items-center gap-1 py-3 text-grape-700"><?= icon('phone', 'h-5 w-5') ?><span data-desktop="<?= e($practice['phone']) ?>">Call</span></a>
     <a href="#get-started" class="flex flex-col items-center justify-center gap-1 bg-sunrise-500 py-3 text-white"><?= icon('calendar', 'h-5 w-5') ?>Get Started</a>
 </div>
 

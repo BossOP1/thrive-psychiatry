@@ -29,7 +29,7 @@ require __DIR__ . '/inc/page-header.php';
                     Back to Home <?= icon('arrow', 'h-5 w-5 transition group-hover:translate-x-1') ?>
                 </a>
                 <a href="sms:<?= $practice['phone_raw'] ?>" class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/40 px-8 py-4 text-lg font-bold transition hover:border-white hover:bg-white hover:text-grape-900">
-                    <?= icon('message', 'h-5 w-5') ?> Text <?= e($practice['phone']) ?>
+                    <?= icon('message', 'h-5 w-5') ?> <span data-desktop="Call or Text <?= e($practice['phone']) ?>">Text <?= e($practice['phone']) ?></span>
                 </a>
             </div>
         </div>
