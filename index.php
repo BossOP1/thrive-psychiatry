@@ -31,8 +31,8 @@ $services = [
     [
         'slug'  => 'adhd',
         'title' => 'ADHD Evaluations & Treatment',
-        'blurb' => 'Thorough, in-person evaluations for teens and adults, followed by a treatment plan that fits your work, school and family life.',
-        'short' => 'In-person evaluations for teens & adults',
+        'blurb' => 'Thorough, in-person evaluations for kids, teens and adults, followed by a treatment plan that fits your work, school and family life.',
+        'short' => 'In-person evaluations for kids, teens & adults',
         'icon'  => 'target',
         'image' => 'service-adhd.webp',
         'pos'   => 'object-[30%_center]',
@@ -109,7 +109,7 @@ $reviews = [
 ];
 
 $page_title = 'Thrive Psychiatry & Wellness | TMS, ADHD & Psychiatry in Mesa, AZ & Vancouver, WA';
-$page_description = 'Personal psychiatric care that takes its time. ExoMind TMS, ADHD evaluations, medication management and mood disorder treatment in Mesa, AZ and Vancouver, WA. 90-minute first visits, text-friendly, evenings and Saturdays.';
+$page_description = 'Personal psychiatric care that takes its time. ExoMind TMS, ADHD evaluations for kids and adults, medication management and mood disorder treatment in Mesa, AZ and Vancouver, WA. 90-minute first visits, text-friendly, evenings and Saturdays.';
 require __DIR__ . '/inc/head.php';
 ?>
 <body id="top" class="bg-cream font-sans text-ink antialiased pb-20 lg:pb-0">
