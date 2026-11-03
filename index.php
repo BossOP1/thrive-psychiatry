@@ -91,7 +91,7 @@ $faqs = [
     ],
     [
         'q' => 'Do you have evening or weekend appointments?',
-        'a' => 'Yes. We see patients into the evening several days a week and offer select Saturday appointments, so care fits around work, school and family.',
+        'a' => 'Yes. We\'re open until 8pm on Mondays, Tuesdays and Thursdays, and offer select Saturday appointments, so care fits around work, school and family.',
     ],
     [
         'q' => 'What should I do in a mental health crisis?',
@@ -352,7 +352,7 @@ require __DIR__ . '/inc/head.php';
                     $diffs = [
                         ['30 min', 'Every follow-up leaves room for real conversation.'],
                         ['Text us', 'Questions, refills or rescheduling. We reply fast.'],
-                        ['After hours', 'Evenings until 8pm, plus select Saturdays.'],
+                        ['After hours', 'Open until 8pm Mon, Tue & Thu, plus select Saturdays.'],
                         ['Together', 'Shared decisions, built around your goals.'],
                     ];
                     foreach ($diffs as [$label, $copy]): ?>
@@ -435,6 +435,7 @@ require __DIR__ . '/inc/head.php';
                 <!-- TODO: replace with Jennifer's own bio/voice from the onboarding form -->
                 <div class="mt-6 space-y-4 text-lg leading-relaxed text-ink/75">
                     <p>I started Thrive because I believe people deserve more than a quick appointment and a prescription. When you sit down with me, we take the time to understand your story, your goals and what's been getting in your way.</p>
+                    <p>With 22 years of both general ed and special ed experience as a junior high and high school teacher, I have a deep passion for working with children and adolescents.</p>
                     <p>My goal isn't just for you to feel "less bad." It's for you to get back to <strong class="text-grape-800">living</strong>: showing up for your family, enjoying your friends, doing well at work and school, and feeling like yourself again.</p>
                 </div>
                 <div class="mt-8 flex flex-wrap gap-3">
@@ -561,9 +562,8 @@ require __DIR__ . '/inc/head.php';
                             <p class="flex gap-3"><span class="text-grape-600"><?= icon('phone') ?></span><a href="tel:<?= $practice['phone_raw'] ?>" class="font-medium hover:text-grape-600"><?= e($practice['phone']) ?></a></p>
                             <a href="<?= e($practice['maps']) ?>" target="_blank" rel="noopener" class="inline-flex items-center gap-2 font-bold text-grape-600 hover:text-grape-800">Get Directions <?= icon('arrow', 'h-5 w-5') ?></a>
                         </div>
-                        <!-- TODO: confirm current hours with Jennifer (old site lists conflicting schedules) -->
                         <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-sm">
-                            <?php foreach (['Mon' => '11am – 8pm', 'Tue' => '10am – 8pm', 'Wed' => 'Closed', 'Thu' => '10am – 8pm', 'Fri' => '9am – 6pm', 'Sat' => '10am – 5pm (select)', 'Sun' => 'Closed'] as $d => $h): ?>
+                            <?php foreach ($practice['hours'] as $d => $h): ?>
                                 <dt class="font-bold text-grape-900"><?= $d ?></dt><dd class="text-ink/70"><?= e($h) ?></dd>
                             <?php endforeach; ?>
                         </dl>
@@ -707,6 +707,18 @@ require __DIR__ . '/inc/head.php';
             <div class="lg:col-span-3">
                 <img src="assets/img/logo-light.webp" alt="Thrive Psychiatry & Wellness" class="h-16 w-auto" width="478" height="392" loading="lazy">
                 <p class="mt-5 max-w-xs leading-relaxed">Personal psychiatric care that takes its time, so you can get back to living.</p>
+                <p class="mt-6 text-xs font-bold uppercase tracking-widest text-white/40">Hours</p>
+                <dl class="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+                    <?php
+                    // Group days that share hours, e.g. "Mon, Tue, Thu  9am – 8pm"
+                    $hour_groups = [];
+                    foreach ($practice['hours'] as $d => $h) {
+                        $hour_groups[$h][] = $d;
+                    }
+                    foreach ($hour_groups as $h => $days): ?>
+                        <dt class="font-bold text-white"><?= e(implode(', ', $days)) ?></dt><dd><?= e($h) ?></dd>
+                    <?php endforeach; ?>
+                </dl>
             </div>
             <div class="lg:col-span-3">
                 <p class="text-xs font-bold uppercase tracking-widest text-white/40">Services</p>
