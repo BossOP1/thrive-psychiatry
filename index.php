@@ -71,7 +71,7 @@ $also_treat = ['Anxiety', 'Insomnia', 'Bipolar Disorder', 'Brain Fog', 'Cognitiv
 $faqs = [
     [
         'q' => 'Do you take my insurance?',
-        'a' => 'We accept Aetna, Blue Cross Blue Shield, Cigna, Humana, Medicare, Tricare and United Healthcare/Optum. Not sure about your plan? Text us and we\'ll check for you.',
+        'a' => 'We accept Aetna, Blue Cross Blue Shield, Cigna, Curative, Humana, Medicare, Moda, Tricare and United Healthcare/Optum. Not sure about your plan? Text us and we\'ll check for you.',
     ],
     [
         'q' => 'Is the TMS consultation really free?',
@@ -582,7 +582,7 @@ require __DIR__ . '/inc/head.php';
             <div class="reveal mt-10 rounded-[2rem] p-6 ring-1 ring-grape-100 sm:p-8">
                 <p class="font-display text-lg font-semibold text-grape-900">Insurance we accept</p>
                 <div class="mt-4 flex flex-wrap gap-2">
-                    <?php foreach (['Aetna', 'Blue Cross Blue Shield', 'Cigna', 'Humana', 'Medicare', 'Tricare', 'United Healthcare / Optum'] as $ins): ?>
+                    <?php foreach (['Aetna', 'Blue Cross Blue Shield', 'Cigna', 'Curative', 'Humana', 'Medicare', 'Moda', 'Tricare', 'United Healthcare / Optum'] as $ins): ?>
                         <span class="rounded-full bg-cream px-4 py-2 text-sm font-medium"><?= e($ins) ?></span>
                     <?php endforeach; ?>
                 </div>
