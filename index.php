@@ -751,7 +751,13 @@ require __DIR__ . '/inc/head.php';
                         <a href="tel:<?= $practice['phone_raw'] ?>" class="mt-2 inline-flex text-sm font-bold text-sun-300 hover:text-white"><?= e($practice['phone']) ?></a>
                     </div>
                 </div>
-                <iframe src="<?= e($practice['maps_embed']) ?>" title="Map of Thrive Psychiatry & Wellness in Mesa, AZ" class="mt-6 h-48 w-full rounded-2xl border-0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div class="mt-6">
+                    <div data-consent-placeholder class="flex h-48 flex-col items-center justify-center gap-3 rounded-2xl bg-white/5 px-6 text-center ring-1 ring-white/10">
+                        <p class="text-sm">The map is provided by Google and may set cookies.</p>
+                        <button type="button" data-cookie-choice="accepted" class="rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white ring-1 ring-white/20 transition hover:bg-white hover:text-ink">Accept cookies &amp; show map</button>
+                    </div>
+                    <iframe data-consent-src="<?= e($practice['maps_embed']) ?>" hidden title="Map of Thrive Psychiatry & Wellness in Mesa, AZ" class="h-48 w-full rounded-2xl border-0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
             </div>
         </div>
 
@@ -760,7 +766,7 @@ require __DIR__ . '/inc/head.php';
         <!-- Legal -->
         <div class="flex flex-col justify-between gap-3 py-8 text-sm text-white/40 sm:flex-row">
             <p>&copy; <?= date('Y') ?> Thrive Psychiatry &amp; Wellness LLC</p>
-            <p class="flex flex-wrap gap-x-6 gap-y-2"><a href="/crisis" class="hover:text-white">Crisis Resources</a><a href="/privacy" class="hover:text-white">Privacy Policy</a><a href="/terms" class="hover:text-white">Terms</a><a href="#top" class="hover:text-white">Back to top ↑</a></p>
+            <p class="flex flex-wrap gap-x-6 gap-y-2"><a href="/crisis" class="hover:text-white">Crisis Resources</a><a href="/privacy" class="hover:text-white">Privacy Policy</a><a href="/terms" class="hover:text-white">Terms</a><button type="button" data-cookie-settings class="hover:text-white">Cookie settings</button><a href="#top" class="hover:text-white">Back to top ↑</a></p>
         </div>
     </div>
 </footer>
@@ -913,5 +919,6 @@ require __DIR__ . '/inc/head.php';
     }));
 })();
 </script>
+<?php require __DIR__ . '/inc/cookie-consent.php'; ?>
 </body>
 </html>

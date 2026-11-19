@@ -57,6 +57,9 @@ require __DIR__ . '/inc/legal-header.php';
             <h2>Your choices</h2>
             <p>You can ask us to update or delete the contact information you sent through this website, or stop contacting you, by calling or texting <a href="tel:<?= $practice['phone_raw'] ?>"><?= e($practice['phone']) ?></a>. You can opt out of text messages at any time by replying STOP. Rights to your health records are explained in our Notice of Privacy Practices.</p>
 
+            <h2 id="cookies">Cookies</h2>
+            <p>This website doesn't use advertising or tracking cookies. Your browser stores your cookie choice so we don't ask again. If you accept cookies, we also load an embedded Google Map, and Google may set its own cookies under its privacy policy. If you decline, the map isn't loaded. You can change your choice at any time with the "Cookie settings" link at the bottom of every page.</p>
+
             <h2>Links to other sites</h2>
             <p>Our website links to other sites, including our patient portal and map directions. Those sites have their own privacy policies, and we aren't responsible for how they handle information.</p>
 

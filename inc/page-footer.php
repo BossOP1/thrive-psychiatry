@@ -5,10 +5,11 @@
         <!-- Legal -->
         <div class="flex flex-col justify-between gap-3 py-8 text-sm text-white/40 sm:flex-row">
             <p>&copy; <?= date('Y') ?> Thrive Psychiatry &amp; Wellness LLC</p>
-            <p class="flex flex-wrap gap-x-6 gap-y-2"><a href="/" class="hover:text-white">Home</a><a href="/crisis" class="hover:text-white">Crisis Resources</a><a href="/privacy" class="hover:text-white">Privacy Policy</a><a href="/terms" class="hover:text-white">Terms</a></p>
+            <p class="flex flex-wrap gap-x-6 gap-y-2"><a href="/" class="hover:text-white">Home</a><a href="/crisis" class="hover:text-white">Crisis Resources</a><a href="/privacy" class="hover:text-white">Privacy Policy</a><a href="/terms" class="hover:text-white">Terms</a><button type="button" data-cookie-settings class="hover:text-white">Cookie settings</button></p>
         </div>
     </div>
 </footer>
 
+<?php require __DIR__ . '/cookie-consent.php'; ?>
 </body>
 </html>
